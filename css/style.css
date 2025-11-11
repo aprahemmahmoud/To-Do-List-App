@@ -86,35 +86,76 @@ ul li {
     position: relative;
 }
 
-.checked {
-    content: url(../image/checked.png);
-}
-.unchecked {
-    content: url(../image/unchecked.png);
+p.active {
+    text-decoration: line-through;
 }
 
-ul .image  {
+ul p {
+    cursor: pointer;
+}
+
+
+ul .check-box  {
     position: absolute;
     width: 20px;
     height: 20px;
+    border-radius: 50%;
+    border: 1px solid black;
     cursor: pointer;
     left: -15px;
 } 
 
+span.active {
+    background-image: url(/image/checked.png);
+    background-size: cover;
+}
 
-
-#delete{
+.delete{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
-    transition: background-color 0.5s;
-    font-size: 22px;
+    padding: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: brown;
+    color: black;
+}
+
+.delete:hover {
+    background-color: rgba(165, 42, 42, 0.918);
+}
+
+
+.deleteAll {
+    position: absolute;
+    bottom: 0px;
+    right: 50%;
+    transform: translateX(50%);
+    background-color: red;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-#delete:hover {
-    background-color: rgb(93%, 93%, 94%);
+div.btns {
+    display: flex;
+    gap: 10px;
+    width: 80px;
+    justify-content: space-between;
+}
+
+.update{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgb(255, 193, 7);
+    color: black;
 }

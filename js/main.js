@@ -1,48 +1,96 @@
 let input = document.querySelector("input[type='text']")
 let btn = document.querySelector("input[type='button']")
-let btnDelete = document.getElementById("delete")
-let check = document.getElementsByClassName("image")
-let result = document.querySelector("ul")
-// let valueResult = document.createElement("li")
+let main = document.querySelector("main")
+let ul = document.createElement("ul")
+let deleteAll = document.createElement("button")
+deleteAll.className = "deleteAll"
+deleteAll.textContent ="Delete All"
+main.append(ul)
 
 
 
-//create
-let dataTasks = []
+//Create
 btn.addEventListener("click",function(){
-   //get data 
-   let dataObj = {
-      task:input.value,
-   }
-   
-   //set in localStorage
-   dataTasks.push(dataObj)
-   localStorage.tasks = JSON.stringify(dataTasks)
-
-   //use read to renew the data
-   read()
+  createElements()
+  input.value = ""
 })
 
-//Read
-result.innerHTML = ""
-function read(){
-   if(localStorage.tasks != undefined){
-      //get from localStorage
-      let dataCome = JSON.parse(localStorage.tasks)
-      //set data in web page
-      for(let i=0;i < dataCome.length;i++){
-         result.innerHTML += `<li>
-                              <div><div onclick="toggleChecked()" class="image unchecked" ></div><p>${dataCome[i].task}</p></div> 
-                              <span id="delete">x</span>
-                              </li> `
-      }
-   }
-}
-read()
 
-//check
-function toggleChecked(){
-   this.classList.toggle("checked")
-   this.classList.toggle("unchecked")
+//return the data from localStorage
+if(localStorage.dataItem !== ""){
+  ul.innerHTML = localStorage.getItem("dataItem")
+  ul.append(deleteAll)
 }
 
+
+function createElements(){
+  if(input.value !== ""){
+  ul.append(deleteAll)
+  //createElement
+    let li = document.createElement("li")
+    let div1 = document.createElement("div")
+    let div2 = document.createElement("div")
+    let span = document.createElement("span")
+    let p = document.createElement("p")
+    let button1 = document.createElement("button")
+    let button2 = document.createElement("button")
+
+    //setAttribute
+    span.setAttribute("class","check-box")
+    button1.setAttribute("class","update")
+    button2.setAttribute("class","delete")
+    div2.setAttribute("class","btns")
+
+    // set value
+    p.textContent = input.value
+    button1.textContent = "edit"
+    button2.innerHTML = `<i class="fa-solid fa-trash"></i>`
+    //append
+    div1.append(span,p)
+    div2.append(button1,button2)
+    li.append(div1,div2)
+    ul.append(li)
+    
+    //update data
+      localStorage.setItem("dataItem",ul.innerHTML)
+  }
+}
+
+
+//check and delete item
+ul.addEventListener('click',function(e){
+  if(e.target.classList.contains("check-box")){
+    e.target.classList.toggle("active")
+    e.target.nextElementSibling.classList.toggle("active")
+    localStorage.setItem("dataItem",ul.innerHTML)
+  }else if(e.target.tagName === "P"){
+    e.target.classList.toggle("active")
+    e.target.previousElementSibling.classList.toggle("active")
+    localStorage.setItem("dataItem",ul.innerHTML)
+  }
+  //update item
+  if(e.target.classList.contains("update")){
+    input.value = e.target.parentElement.parentElement.firstElementChild.textContent
+    e.target.parentElement.parentElement.remove()
+    localStorage.setItem("dataItem",ul.innerHTML)
+  }
+//delete item
+if(e.target.classList.contains("delete")){
+    e.target.parentElement.parentElement.remove()
+    //update data
+    localStorage.setItem("dataItem",ul.innerHTML)
+  }else if(e.target.classList.contains("fa-trash")){
+    e.target.parentElement.parentElement.parentElement.remove()
+    //update data
+    localStorage.setItem("dataItem",ul.innerHTML)
+  }
+})
+
+//delete all items
+deleteAll.addEventListener('click',function(e){
+    localStorage.setItem("dataItem","")
+    ul.innerHTML = ""
+})
+
+
+  
